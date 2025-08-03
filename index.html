@@ -26,46 +26,76 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .section {
-      margin-bottom: 15px;
+      margin-bottom: 25px;
     }
     .section h3 {
       margin-bottom: 5px;
       color: #333;
     }
+    blockquote {
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+    }
   </style>
 </head>
 <body>
+  <button class="print-button" onclick="window.print()">🖨️ Imprimer ce plan</button>
   <h1>Générateur de Fiche de Révision</h1>
   <textarea id="cours" rows="10" placeholder="Colle ton cours ici..."></textarea>
   <button onclick="genererFiche()">Générer la fiche</button>  <div id="fiche" class="fiche" style="display:none">
     <div class="section">
-      <h3>📘 Titre :</h3>
-      <div id="titre"></div>
-    </div>
-    <div class="section">
-      <h3>🧬 Idée principale :</h3>
-      <div id="idee"></div>
-    </div>
-    <div class="section">
-      <h3>🔑 Mots-clés :</h3>
-      <div id="mots"></div>
-    </div>
-    <div class="section">
-      <h3>📊 Contenu important :</h3>
-      <div id="contenu"></div>
-    </div>
-    <div class="section">
-      <h3>❓ Questions d'auto-test :</h3>
-      <div id="questions"></div>
-    </div>
-    <div class="section">
-      <h3>💡 Astuce de mémoire :</h3>
-      <div id="astuce"></div>
-    </div>
+      <h3>📄 Titre du cours</h3>
+      <blockquote id="titre">(Note ici le titre clair du cours)<br>👉 Ex : Les États de la Matière</blockquote>
+    </div><div class="section">
+  <h3>🧠 Idée principale du cours</h3>
+  <blockquote id="idee">(Résume en UNE phrase ce que le cours explique)<br>👉 Ex : La matière peut exister sous trois états : solide, liquide et gaz.</blockquote>
+</div>
+
+<div class="section">
+  <h3>🔑 Mots-clés importants</h3>
+  <blockquote id="mots">
+    (Liste 5 à 10 mots ou notions à retenir)<br><br>
+    ...<br>
+    ...<br>
+    ...
+  </blockquote>
+</div>
+
+<div class="section">
+  <h3>📊 Contenu important</h3>
+  <blockquote id="contenu">
+    (Organise les informations importantes par parties : I, II, III...) + donne des exemples)<br><br>
+    I. ...<br><br>
+    ...<br><br>
+    II. ...<br><br>
+    ...<br><br>
+    III. ...<br><br>
+    ...
+  </blockquote>
+</div>
+
+<div class="section">
+  <h3>❓ Questions d’auto-test</h3>
+  <blockquote id="questions">
+    (Ecris ici 3 à 5 questions simples que tu peux te poser pour vérifier ta compréhension)<br><br>
+    1. ...<br><br>
+    2. ...<br><br>
+    3. ...
+  </blockquote>
+</div>
+
+<div class="section">
+  <h3>💡 Astuce de mémoire</h3>
+  <blockquote id="astuce">
+    (Ex : une comparaison, une image mentale, une phrase simple pour te souvenir)<br>
+    👉 Ex : Pense à un glaçon → eau → vapeur pour te rappeler des 3 états.
+  </blockquote>
+</div>
+
   </div>  <script>
     function genererFiche() {
       const texte = document.getElementById("cours").value;
-
       const titre = texte.split("\n")[0] || "(Titre non détecté)";
       const idee = "Ce cours parle de " + (texte.split(".")[0] || "...");
 

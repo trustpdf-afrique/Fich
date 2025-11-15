@@ -66,6 +66,16 @@ table{width:100%;border-collapse:collapse;background:white;border-radius:12px;}
 th,td{border:1px solid #ccc;padding:8px;text-align:center;}
 th{background:#1da3ff;color:white;}
 td input{width:60px;padding:4px;text-align:center;border-radius:4px;border:1px solid #ccc;}
+
+/********* MATCHS *********/
+.match-card{
+  background:white;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,0.15);padding:12px;margin-bottom:12px;
+}
+.match-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.team{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
+.team img{width:36px;height:36px;border-radius:50%;object-fit:cover;}
+.team-name{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.score{width:60px;text-align:center;font-weight:700;font-size:18px;}
 </style>
 </head>
 
@@ -128,34 +138,7 @@ td input{width:60px;padding:4px;text-align:center;border-radius:4px;border:1px s
     </button>
 
     <div class="players-grid">
-        <div class="player-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Unai_Sim%C3%B3n_%28cropped%29.jpg">
-            <div class="flag" style="background:url('https://flagcdn.com/w40/es.png') center/cover;"></div>
-            <div class="player-name">Unai Simon</div>
-            <div class="player-club">Athletic Bilbao · GK</div>
-            <div class="player-country">Espagne</div>
-            <div class="player-age">Âge : 28</div>
-        </div>
-
-        <div class="player-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Kylian_Mbapp%C3%A9_2022.jpg">
-            <div class="flag" style="background:url('https://flagcdn.com/w40/fr.png') center/cover;"></div>
-            <div class="player-name">Kylian Mbappé</div>
-            <div class="player-club">Paris SG · Attaquant</div>
-            <div class="player-country">France</div>
-            <div class="player-age">Âge : 26</div>
-        </div>
-
-        <div class="player-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Lionel_Messi_20180626.jpg">
-            <div class="flag" style="background:url('https://flagcdn.com/w40/ar.png') center/cover;"></div>
-            <div class="player-name">Lionel Messi</div>
-            <div class="player-club">Inter Miami · Attaquant</div>
-            <div class="player-country">Argentine</div>
-            <div class="player-age">Âge : 36</div>
-        </div>
-
-        <!-- autres joueurs inchangés -->
+        <!-- Tes cartes de joueurs ici -->
     </div>
 </div>
 
@@ -168,10 +151,7 @@ td input{width:60px;padding:4px;text-align:center;border-radius:4px;border:1px s
 
     <table>
         <tr><th>Joueur</th><th>Buts</th></tr>
-        <tr><td>Mbappé</td><td><input type="number" min="0"></td></tr>
-        <tr><td>Messi</td><td><input type="number" min="0"></td></tr>
-        <tr><td>Ronaldo</td><td><input type="number" min="0"></td></tr>
-        <!-- autres lignes inchangées -->
+        <!-- Tes lignes de buteurs ici -->
     </table>
 </div>
 
@@ -313,60 +293,6 @@ function displayNews(){
 }
 displayNews();
 
-document.getElementById("showAddFormBtn").onclick = ()=>{
-    document.getElementById("addNewsDiv").style.display="block";
-    document.getElementById("addNewsBtnContainer").style.display="none";
-};
-
-document.getElementById("addNewsBtn").onclick = ()=>{
-
-    let n={
-        source:source.value,
-        title:title.value,
-        description:description.value,
-        image:imageURL.value,
-        time:time.value
-    };
-
-    news.push(n);
-    localStorage.setItem("news",JSON.stringify(news));
-    displayNews();
-
-    source.value=title.value=description.value=imageURL.value=time.value="";
-    document.getElementById("addNewsDiv").style.display="none";
-    document.getElementById("addNewsBtnContainer").style.display="block";
-};
-
-function deleteNews(i){
-    news.splice(i,1);
-    localStorage.setItem("news",JSON.stringify(news));
-    displayNews();
-}
-
-/******** JOUEURS (MODIFICATION ADMIN) ********/
-document.getElementById("editPlayersBtn").onclick = ()=>{
-    const cards=document.querySelectorAll(".player-card");
-
-    cards.forEach(c=>{
-        let name=c.querySelector(".player-name");
-        let club=c.querySelector(".player-club");
-        let country=c.querySelector(".player-country");
-        let age=c.querySelector(".player-age");
-
-        let newName=prompt("Nom :",name.textContent);
-        if(newName) name.textContent=newName;
-
-        let newClub=prompt("Club et poste :",club.textContent);
-        if(newClub) club.textContent=newClub;
-
-        let newCountry=prompt("Pays :",country.textContent);
-        if(newCountry) country.textContent=newCountry;
-
-        let newAge=prompt("Âge :",age.textContent);
-        if(newAge) age.textContent=newAge;
-    });
-};
-
 /******** MATCHS + SAUVEGARDE ********/
 let matchs = JSON.parse(localStorage.getItem("matchs")) || [];
 
@@ -376,17 +302,25 @@ function displayMatchs(){
 
     matchs.forEach((m,i)=>{
         let card=document.createElement("div");
-        card.className="card";
+        card.className="match-card";
 
         card.innerHTML=`
-            <h3>${m.teams}</h3>
-            <p>Date : ${m.date}</p>
-            <p>Heure : ${m.hour}</p>
+            <div class="match-row">
+                <div class="team">
+                    <img src="" alt="Logo équipe A">
+                    <div class="team-name">Équipe A</div>
+                </div>
+                <input type="number" class="score" placeholder="0">
+                <div class="team">
+                    <div class="team-name">Équipe B</div>
+                    <img src="" alt="Logo équipe B">
+                </div>
+            </div>
+            <p style="margin-top:6px;">Date : ${m.date} | Heure : ${m.hour}</p>
             <p>Stade : ${m.stadium}</p>
-            <p style="color:#0a76db;font-weight:bold;margin-top:6px;">À venir</p>
             ${adminActive?`
                 <button onclick="deleteMatch(${i})"
-                        style="background:#e63946;color:white;padding:4px 8px;border:none;border-radius:6px;margin-top:6px;">
+                        style="background:#e63946;color:white;padding:6px;border:none;border-radius:6px;margin-top:6px;">
                     Supprimer
                 </button>`:""}
         `;
@@ -395,10 +329,12 @@ function displayMatchs(){
 }
 displayMatchs();
 
+// ouvrir modal
 document.getElementById("addMatchBtn").onclick = ()=>{
     document.getElementById("matchModal").style.display="block";
 };
 
+// sauvegarder
 document.getElementById("saveMatchBtn").onclick = ()=>{
     let m={
         teams:matchTeam.value,
@@ -413,13 +349,13 @@ document.getElementById("saveMatchBtn").onclick = ()=>{
     document.getElementById("matchModal").style.display="none";
 };
 
+// supprimer
 function deleteMatch(i){
     matchs.splice(i,1);
     localStorage.setItem("matchs",JSON.stringify(matchs));
     displayMatchs();
 }
-
 </script>
 
 </body>
-              </html>
+</html>
